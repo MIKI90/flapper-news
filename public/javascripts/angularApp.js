@@ -24,9 +24,7 @@ var app = angular.module("flapperNews",['ui.router'])
         }
       });
       $urlRouterProvider.otherwise('home');
-  });
-
-app.factory('posts',['$http',function($http){
+  }).factory('posts',['$http',function($http){
   var o ={
     posts:[]
   };
@@ -66,7 +64,10 @@ app.factory('posts',['$http',function($http){
   return o;
 }]);
 
-app.controller('FlapperNewsController',['$scope','posts',function($scope,posts){
+app.controller('FlapperNewsController',[
+'$scope',
+'posts',
+function($scope,posts){
   $scope.posts = posts.posts;
   $scope.incrementUpvotes = function(post){
     posts.upvote(post);
