@@ -36,7 +36,7 @@ router.post('/posts', function(req, res, next) {
 // return a post
 router.get('/posts/:post', function(req, res, next) {
   req.post.populate('comments', function(err, post) {
-    if (err) { return next(err); }
+   if (err) { return next(err); }
 
     res.json(post);
   });
@@ -77,29 +77,34 @@ router.put('/posts/:post/comments/:comment/upvote', function(req, res, next) {
 });
 
 
-//preload post objectt on routes with ':post'
-/*router.param('post',function(rew,res,next,id){
-  var query = Post.findByid(id);
-  query.exec( function(err, post){
-      if(err){return next(err);}
-      if(!post){return next( new Error("Can´t find post"));}
+//preload post object on routes with ':post'
+router.param('post', function (req, res, next, id) {
+	var query = Post.findById(id);
 
-        req.post = post;
-        return next();
-  });
-});*/
+	query.exec( function (err, post) {
+		if (err) { return next(err); }
+		if (!post) {
+			return next('Could not find post');
+		}
+
+		req.post = post;
+		return next();
+	});
+});
+
 
 //preload comment objects on router with ':comment'
-/*router.param('comment', function(req, res, next, id) {
-  var query = Comment.findById(id);
+router.param('comment', function (req, res, next, id) {
+	var query = Comment.findById(id);
 
-  query.exec(function (err, comment){
-    if (err) { return next(err); }
-    if (!comment) { return next(new Error("can't find comment")); }
+	query.exec( function(err, comment) {
+		if (err) { return next(err); }
+		if (!comment) {
+			return ('Could not find comment');
+		}
 
-    req.comment = comment;
-    return next();
-  });
-});*/
-
+		req.comment = comment;
+		return next();
+	});
+});
 module.exports = router;

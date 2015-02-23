@@ -1,4 +1,4 @@
-
+'use strict';
 var app = angular.module("flapperNews",['ui.router'])
 .config(
   function($stateProvider,$urlRouterProvider){
@@ -24,7 +24,8 @@ var app = angular.module("flapperNews",['ui.router'])
         }
       });
       $urlRouterProvider.otherwise('home');
-  }).factory('posts',['$http',function($http){
+  })
+  .factory('posts',['$http',function($http){
   var o ={
     posts:[]
   };
@@ -62,9 +63,7 @@ var app = angular.module("flapperNews",['ui.router'])
   };
 
   return o;
-}]);
-
-app.controller('FlapperNewsController',[
+}]).controller('FlapperNewsController',[
 '$scope',
 'posts',
 function($scope,posts){
@@ -81,10 +80,7 @@ function($scope,posts){
     $scope.title='';
     $scope.link='';
   };
-}]);
-
-
-app.controller('PostsController',[
+}]).controller('PostsController',[
 '$scope',
 'posts',
 'post',
